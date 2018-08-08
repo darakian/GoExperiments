@@ -12,10 +12,8 @@ type DumbSortedLinkedList struct { //Sorted from small to large
   Head *Node
 }
 
-func (l *DumbSortedLinkedList) add(n *Node){
-	// fmt.Print("Adding ")
-	// fmt.Println(*n)
-	if l.Head == nil{
+func (l *DumbSortedLinkedList) insert(n *Node){
+	if l.Head == nil{ //Base case. Empty list
 		l.Head = n
 		l.length++
 		return
@@ -63,6 +61,29 @@ func (l *DumbSortedLinkedList) remove_back() *Node{
   return current_pointer
 }
 
+func (l *DumbSortedLinkedList) remove_by_value(v int){
+  current_pointer := l.Head
+  previous_pointer := current_pointer
+  for (current_pointer!=nil){
+		if current_pointer.Value==v{
+			previous_pointer.Next=current_pointer.Next
+			l.length--
+			return
+		}
+    if current_pointer.Next!=nil{
+      previous_pointer=current_pointer
+      current_pointer=current_pointer.Next
+    } else if current_pointer.Next==nil && current_pointer.Value==v {
+			previous_pointer.Next = nil
+			l.length--
+		}
+  }
+}
+
+func (l *DumbSortedLinkedList) insert_pt(v int) *Node{
+	
+}
+
 func (l DumbSortedLinkedList) print_list(){
   current_pointer := l.Head
   for (current_pointer!=nil){
@@ -72,18 +93,28 @@ func (l DumbSortedLinkedList) print_list(){
   fmt.Println("//-----//")
 }
 
+func (l DumbSortedLinkedList) find(v int) *Node{
+	current_pointer := l.Head
+  for (current_pointer!=nil){
+    if current_pointer.Value==v{
+			return current_pointer
+		}
+    current_pointer=current_pointer.Next
+  }
+	return nil
+}
+
 func main() {
-  n1 := Node{1, nil}
+  n1 := Node{10, nil}
   n2 := Node{2, nil}
-  n3 := Node{3, nil}
+  n3 := Node{30, nil}
   dumb_list := DumbSortedLinkedList{0, nil}
-  dumb_list.add(&n1)
-  dumb_list.add(&n2)
-  dumb_list.add(&n3)
+  dumb_list.insert(&n1)
+  dumb_list.insert(&n2)
+  dumb_list.insert(&n3)
   dumb_list.print_list()
 	dumb_list.remove_front()
 	dumb_list.print_list()
 	dumb_list.remove_back()
 	dumb_list.print_list()
-
 }
